@@ -16,28 +16,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeremyarevalo.webapp.biblioteca.model.Categoria;
-import com.jeremyarevalo.webapp.biblioteca.service.CategoriaService;
+import com.jeremyarevalo.webapp.biblioteca.model.Cliente;
+import com.jeremyarevalo.webapp.biblioteca.service.ClienteService;
+
+
+
 
 @Controller
 @RestController
-@RequestMapping(value = "categoria")
-public class CategoriaController {
+@RequestMapping(value = "cliente")
+public class ClienteController {
     
     @Autowired
-    CategoriaService categoriaService;
+    ClienteService clienteService;
 
     @GetMapping("/")
-    public List<Categoria> listaCategorias(){
-        return categoriaService.listarCategoria();
+    public List<Cliente> listarCliente(){
+        return clienteService.listarCliente();
     }
 
     
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> buscarCategoriaPorId(@PathVariable Long id){
+    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(categoriaService.buscarCategoriaPorId(id));
+            return ResponseEntity.ok(clienteService.buscarClientePorId(id));
         }catch(Exception e){
             return ResponseEntity.badRequest().body(null);
         }
@@ -46,14 +49,14 @@ public class CategoriaController {
 
 
     @PostMapping("/")
-    public ResponseEntity<Map<String, Boolean>> agregarCategoria(@RequestBody Categoria categoria){
+    public ResponseEntity<Map<String, Boolean>> agregarCliente(@RequestBody Cliente cliente){
         Map<String, Boolean> response = new HashMap<>();
         try{
-            categoriaService.guardarCategoria(categoria);
+            clienteService.GuardarCliente(cliente);
             response.put("Se agrego con exito", Boolean.TRUE);
             return ResponseEntity.ok(response);
         } catch (Exception e){
-            response.put("no se pudo guardar", Boolean.FALSE);
+            response.put("no se pudo agregar", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
         }
 
@@ -62,12 +65,14 @@ public class CategoriaController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Boolean>> editarCategoria(@PathVariable Long id, @RequestBody Categoria categoriaNueva){
+    public ResponseEntity<Map<String, Boolean>> editarCliente(@PathVariable Long id, @RequestBody Cliente clienteNuevo){
         Map<String, Boolean> response = new HashMap<>();
         try{
-            Categoria categoriaVieja = categoriaService.buscarCategoriaPorId(id);
-            categoriaVieja.setNombreCategoria(categoriaNueva.getNombreCategoria());
-            categoriaService.guardarCategoria(categoriaVieja);
+            Cliente clienteViejo = clienteService.buscarClientePorId(id);
+            clienteViejo.setNombre(clienteNuevo.getNombre());
+            clienteViejo.setApellido(clienteNuevo.getApellido());
+            clienteViejo.setNumero(clienteNuevo.getNumero());
+            clienteService.GuardarCliente(clienteViejo);
             response.put("Se edito con exito", Boolean.TRUE);
             return ResponseEntity.ok(response);
         }catch(Exception e){
@@ -79,11 +84,11 @@ public class CategoriaController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarCategoriaPorId(@PathVariable Long id){
+    public ResponseEntity<Map<String, Boolean>> eliminarClientePorId(@PathVariable Long id){
         Map<String, Boolean> response = new HashMap<>();
         try{
-            Categoria categoria = categoriaService.buscarCategoriaPorId(id);
-            categoriaService.eliminarCategoria(categoria);
+            Cliente cliente = clienteService.buscarClientePorId(id);
+            clienteService.eliminarCliente(cliente);
             response.put("Se elimino con exito", Boolean.TRUE);
             return ResponseEntity.ok(response);
         }catch(Exception e){
@@ -91,5 +96,4 @@ public class CategoriaController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-
 }
