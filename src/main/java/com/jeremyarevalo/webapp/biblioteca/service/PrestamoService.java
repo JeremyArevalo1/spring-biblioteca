@@ -25,13 +25,12 @@ public class PrestamoService implements IPrestamoService{
     }
 
     @Override
-    public Prestamo guardarPrestamo(Prestamo prestamo, MethodType methodType) {
-        if (methodType == MethodType.POST) {
-            return prestamoRepository.save(prestamo);
-        }else if(methodType == MethodType.PUT){
-            return prestamoRepository.save(prestamo);
+    public Boolean guardarPrestamo(Prestamo prestamo) {
+        if (!VerificarSiUnUsuarioTienePrestamoActivo(prestamo)) {
+            prestamoRepository.save(prestamo);  
+            return true; 
         }else{
-            return prestamoRepository.save(null);
+            return false;
         }
     }
 
@@ -39,5 +38,18 @@ public class PrestamoService implements IPrestamoService{
     public void eliminarPrestamo(Prestamo prestamo) {
         prestamoRepository.delete(prestamo);
     }
+
+    @Override
+    public Boolean VerificarSiUnUsuarioTienePrestamoActivo(Prestamo prestamoNuevo) {
+        List<Prestamo> prestamos = listarPrestamo();
+        Boolean flag = false;
+        for (Prestamo prestamo : prestamos) {
+            if(prestamoNuevo.getCliente().getDpi().equals(prestamo.getCliente().getDpi()) && prestamo.getVigencia() == true){
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
 
 }

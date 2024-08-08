@@ -50,10 +50,17 @@ public class PrestamoController {
     public ResponseEntity<Map<String, Boolean>> agregarPrestamo(@RequestBody Prestamo prestamo){
         Map<String, Boolean> response = new HashMap<>();
         try {
-            prestamoService.guardarPrestamo(prestamo, MethodType.POST);
-            response.put("Se agrego el prestamo", Boolean.TRUE);
-            return ResponseEntity.ok(response);
+            if (prestamoService.guardarPrestamo(prestamo)) {
+                response.put("Se agrego el prestamo", Boolean.TRUE);
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("Error", Boolean.FALSE);
+                response.put("No se pudo crear el prestamo porq el cliente ya tiene un prestamo", Boolean.FALSE);
+                return ResponseEntity.badRequest().body(response);
+            }
+            
         } catch (Exception e) {
+            e.printStackTrace();
             response.put("Error", Boolean.FALSE);
             response.put("No se pudo crear el prestamo", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
@@ -71,7 +78,7 @@ public class PrestamoController {
             prestamoViejo.setEmpleado(prestamoNuevo.getEmpleado());
             prestamoViejo.setCliente(prestamoNuevo.getCliente());
             prestamoViejo.setLibro(prestamoNuevo.getLibro());
-            prestamoService.guardarPrestamo(prestamoViejo, MethodType.PUT);
+            prestamoService.guardarPrestamo(prestamoViejo);
             response.put("Se edito con exito", Boolean.TRUE);
             return ResponseEntity.ok(response);
         }catch(Exception e){

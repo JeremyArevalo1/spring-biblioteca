@@ -20,4 +20,8 @@ public class Cliente {
     private String nombre;
     private String apellido;
     private String numero;
+    public boolean equalsIgnoreCase(Cliente cliente) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'equalsIgnoreCase'");
+    }
 }
