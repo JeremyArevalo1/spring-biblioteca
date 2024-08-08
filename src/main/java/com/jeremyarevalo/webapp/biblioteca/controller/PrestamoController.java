@@ -16,61 +16,61 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jeremyarevalo.webapp.biblioteca.model.Empleado;
-import com.jeremyarevalo.webapp.biblioteca.service.EmpleadoService;
+import com.jeremyarevalo.webapp.biblioteca.model.Prestamo;
+import com.jeremyarevalo.webapp.biblioteca.service.PrestamoService;
 
 @Controller
 @RestController
-@RequestMapping(value = "empleado")
-public class EmpleadoController {
-    
+@RequestMapping(value = "prestamo")
+public class PrestamoController {
     @Autowired
-    EmpleadoService empleadoService;
+    PrestamoService prestamoService;
 
     @GetMapping("/")
-    public List<Empleado> listarEmpleados(){
-        return empleadoService.listaEmpleados();
+    public ResponseEntity<List<Prestamo>> listarPrestamo(){
+        try {
+            return ResponseEntity.ok(prestamoService.listarPrestamo());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Empleado> buscarEmpleadoPorId(@PathVariable Long id){
+    public ResponseEntity<Prestamo> buscarPretamoPorId(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(empleadoService.buscarEmpleadoPorId(id));
+            return ResponseEntity.ok(prestamoService.buscarPrestamo(id));
         }catch(Exception e){
             return ResponseEntity.badRequest().body(null);
         }
     }
 
+
     @PostMapping("/")
-    public ResponseEntity<Map<String, Boolean>> agregarEmpleado(@RequestBody Empleado empleado){
+    public ResponseEntity<Map<String, Boolean>> agregarPrestamo(@RequestBody Prestamo prestamo){
         Map<String, Boolean> response = new HashMap<>();
-        try{
-            if (empleadoService.GuardarEmpleado(empleado)) {
-                response.put("se agrego con exito", Boolean.FALSE);
-                return ResponseEntity.ok(response);
-            }else{
-                
-            }
-            response.put("Se agrego con exito", Boolean.TRUE);
+        try {
+            prestamoService.guardarPrestamo(prestamo);
+            response.put("Se agrego el prestamo", Boolean.TRUE);
             return ResponseEntity.ok(response);
-        } catch (Exception e){
-            response.put("no se pudo agregar", Boolean.FALSE);
+        } catch (Exception e) {
+            response.put("Error", Boolean.FALSE);
+            response.put("No se pudo crear el prestamo", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
         }
-
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Boolean>> editarEmpleado(@PathVariable Long id, @RequestBody Empleado empleadoNuevo){
+    public ResponseEntity<Map<String, Boolean>> editarPrestamo(@PathVariable Long id, @RequestBody Prestamo prestamoNuevo){
         Map<String, Boolean> response = new HashMap<>();
         try{
-            Empleado empleadoViejo = empleadoService.buscarEmpleadoPorId(id);
-            empleadoViejo.setNombre(empleadoNuevo.getNombre());
-            empleadoViejo.setApellido(empleadoNuevo.getApellido());
-            empleadoViejo.setTelefono(empleadoNuevo.getTelefono());
-            empleadoViejo.setDireccion(empleadoNuevo.getDireccion());
-            empleadoViejo.setDpi(empleadoNuevo.getDpi());
-            empleadoService.GuardarEmpleado(empleadoViejo);
+            Prestamo prestamoViejo = prestamoService.buscarPrestamo(id);
+            prestamoViejo.setFechaDePrestamo(prestamoNuevo.getFechaDePrestamo());
+            prestamoViejo.setFechaDeDevolucion(prestamoNuevo.getFechaDeDevolucion());
+            prestamoViejo.setVigencia(prestamoNuevo.getVigencia());
+            prestamoViejo.setEmpleado(prestamoNuevo.getEmpleado());
+            prestamoViejo.setCliente(prestamoNuevo.getCliente());
+            prestamoViejo.setLibro(prestamoNuevo.getLibro());
+            prestamoService.guardarPrestamo(prestamoViejo);
             response.put("Se edito con exito", Boolean.TRUE);
             return ResponseEntity.ok(response);
         }catch(Exception e){
@@ -80,11 +80,11 @@ public class EmpleadoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarEmpleadoPorId(@PathVariable Long id){
+    public ResponseEntity<Map<String, Boolean>> eliminarPrestamoPorId(@PathVariable Long id){
         Map<String, Boolean> response = new HashMap<>();
         try{
-            Empleado empleado = empleadoService.buscarEmpleadoPorId(id);
-            empleadoService.eliminarEmpleado(empleado);
+            Prestamo prestamo = prestamoService.buscarPrestamo(id);
+            prestamoService.eliminarPrestamo(prestamo);
             response.put("Se elimino con exito", Boolean.TRUE);
             return ResponseEntity.ok(response);
         }catch(Exception e){
