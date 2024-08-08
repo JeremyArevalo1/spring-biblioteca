@@ -6,9 +6,9 @@ public interface ILibroService {
 
     public List<Libro> listarLibros();
     
-    public Libro guardarLibro(Long id);
+    public Libro guardarLibro(Libro libro);
 
-    public Libro buscarLibro(Libro libro);
+    public Libro buscarLibro(Long id);
 
     public void eliminarLibro(Libro libro);
 }

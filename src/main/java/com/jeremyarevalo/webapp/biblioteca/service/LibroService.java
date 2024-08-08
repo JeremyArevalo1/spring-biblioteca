@@ -19,10 +19,9 @@ public class LibroService implements ILibroService{
     }
 
     @Override
-    public Libro buscarLibro(Long id) {
-        return libroRepository.findById(id).orElse(null);
+    public Libro guardarLibro(Libro libro) {
+        return libroRepository.save(libro);
     }
-
 
     @Override
     public Libro buscarLibro(Long id) {
@@ -33,5 +32,7 @@ public class LibroService implements ILibroService{
     public void eliminarLibro(Libro libro) {
         libroRepository.delete(libro);
     }
+
+    
     
 }

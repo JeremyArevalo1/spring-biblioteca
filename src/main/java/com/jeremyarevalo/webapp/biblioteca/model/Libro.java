@@ -18,12 +18,12 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String isbn;
-    private String nomrbre;
+    private String nombre;
     @Column(columnDefinition = "TEXT")
     private String sinopsis;
     private String autor;
     private String editorial;
-    private String disponibilidad;
+    private Boolean disponibilidad;
     private String numeroEstanteria;
     private String cluster;
     @ManyToOne(fetch = FetchType.EAGER)
