@@ -49,11 +49,17 @@ public class CategoriaController {
     public ResponseEntity<Map<String, Boolean>> agregarCategoria(@RequestBody Categoria categoria){
         Map<String, Boolean> response = new HashMap<>();
         try{
-            categoriaService.guardarCategoria(categoria);
-            response.put("Se agrego con exito", Boolean.TRUE);
-            return ResponseEntity.ok(response);
+            if (categoriaService.guardarCategoria(categoria)) {
+                response.put("Se agrego con exito", Boolean.TRUE);
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("no se pudo agregar por que la categoria se duplicaria", Boolean.FALSE);
+                response.put("Err", Boolean.FALSE);
+                return ResponseEntity.badRequest().body(response);
+            }
         } catch (Exception e){
             response.put("no se pudo guardar", Boolean.FALSE);
+            response.put("Err", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
         }
 
@@ -67,11 +73,17 @@ public class CategoriaController {
         try{
             Categoria categoriaVieja = categoriaService.buscarCategoriaPorId(id);
             categoriaVieja.setNombreCategoria(categoriaNueva.getNombreCategoria());
-            categoriaService.guardarCategoria(categoriaVieja);
-            response.put("Se edito con exito", Boolean.TRUE);
-            return ResponseEntity.ok(response);
+            if (categoriaService.guardarCategoria(categoriaVieja)) {
+                response.put("Se edito con exito", Boolean.TRUE);
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("no se pudo editar por que es la misma categoria", Boolean.FALSE);
+                response.put("Err", Boolean.FALSE);
+                return ResponseEntity.badRequest().body(response);
+            }
         }catch(Exception e){
             response.put("no se pudo editar", Boolean.FALSE);
+            response.put("Err", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
         }
     }

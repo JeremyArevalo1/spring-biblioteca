@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jeremyarevalo.webapp.biblioteca.model.Prestamo;
 import com.jeremyarevalo.webapp.biblioteca.service.PrestamoService;
+import com.jeremyarevalo.webapp.biblioteca.util.MethodType;
 
 @Controller
 @RestController
@@ -49,7 +50,7 @@ public class PrestamoController {
     public ResponseEntity<Map<String, Boolean>> agregarPrestamo(@RequestBody Prestamo prestamo){
         Map<String, Boolean> response = new HashMap<>();
         try {
-            prestamoService.guardarPrestamo(prestamo);
+            prestamoService.guardarPrestamo(prestamo, MethodType.POST);
             response.put("Se agrego el prestamo", Boolean.TRUE);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -70,7 +71,7 @@ public class PrestamoController {
             prestamoViejo.setEmpleado(prestamoNuevo.getEmpleado());
             prestamoViejo.setCliente(prestamoNuevo.getCliente());
             prestamoViejo.setLibro(prestamoNuevo.getLibro());
-            prestamoService.guardarPrestamo(prestamoViejo);
+            prestamoService.guardarPrestamo(prestamoViejo, MethodType.PUT);
             response.put("Se edito con exito", Boolean.TRUE);
             return ResponseEntity.ok(response);
         }catch(Exception e){

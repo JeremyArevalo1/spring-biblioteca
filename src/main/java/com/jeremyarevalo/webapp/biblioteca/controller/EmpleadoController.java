@@ -49,11 +49,13 @@ public class EmpleadoController {
                 response.put("Se agrego con exito", Boolean.TRUE);
                 return ResponseEntity.ok(response);
             }else{
-                response.put("Dpi Duplicado", Boolean.FALSE);
+                response.put("no se pudo crear el empleado, por Dpi Duplicado", Boolean.FALSE);
+                response.put("Err", Boolean.FALSE);
                 return ResponseEntity.badRequest().body(response);
             }
         } catch (Exception e){
             response.put("no se pudo agregar", Boolean.FALSE);
+            response.put("Err", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
         }
 
@@ -69,9 +71,14 @@ public class EmpleadoController {
             empleadoViejo.setTelefono(empleadoNuevo.getTelefono());
             empleadoViejo.setDireccion(empleadoNuevo.getDireccion());
             empleadoViejo.setDpi(empleadoNuevo.getDpi());
-            empleadoService.GuardarEmpleado(empleadoViejo);
-            response.put("Se edito con exito", Boolean.TRUE);
-            return ResponseEntity.ok(response);
+            if(empleadoService.GuardarEmpleado(empleadoViejo)){
+                response.put("Se edito con exito", Boolean.TRUE);
+                return ResponseEntity.ok(response);
+            }else{
+                response.put("no se pudo editar por un dpi duplicado    ", Boolean.FALSE);
+                return ResponseEntity.badRequest().body(response);
+            }
+
         }catch(Exception e){
             response.put("no se pudo editar", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
