@@ -26,10 +26,10 @@ public class EmpleadoService implements IEmpleadoService{
     @Override
     public Boolean GuardarEmpleado(Empleado empleado) {
         if (!verificarDpiDuplicado(empleado)) {
-            return empleadoRepository.save(empleado);  
+            empleadoRepository.save(empleado);  
             return true; 
         }else{
-            
+            return false;
         }
     }
 

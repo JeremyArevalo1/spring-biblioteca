@@ -46,13 +46,12 @@ public class EmpleadoController {
         Map<String, Boolean> response = new HashMap<>();
         try{
             if (empleadoService.GuardarEmpleado(empleado)) {
-                response.put("se agrego con exito", Boolean.FALSE);
+                response.put("Se agrego con exito", Boolean.TRUE);
                 return ResponseEntity.ok(response);
             }else{
-                
+                response.put("Dpi Duplicado", Boolean.FALSE);
+                return ResponseEntity.badRequest().body(response);
             }
-            response.put("Se agrego con exito", Boolean.TRUE);
-            return ResponseEntity.ok(response);
         } catch (Exception e){
             response.put("no se pudo agregar", Boolean.FALSE);
             return ResponseEntity.badRequest().body(response);
