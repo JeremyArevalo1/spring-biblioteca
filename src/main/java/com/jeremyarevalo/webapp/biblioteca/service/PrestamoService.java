@@ -1,6 +1,5 @@
 package com.jeremyarevalo.webapp.biblioteca.service;
 import java.util.List;
-import com.jeremyarevalo.webapp.biblioteca.util.MethodType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
