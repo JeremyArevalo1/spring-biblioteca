@@ -22,6 +22,11 @@ public class Empleado {
     private String telefono;
     private String direccion;
     private String dpi;
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
     
     
 }

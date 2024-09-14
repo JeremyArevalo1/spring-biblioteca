@@ -6,11 +6,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.ToString;
 
 @Entity
 @Data
-@ToString
 @Table(name = "Categorias")
 public class Categoria {
 
@@ -19,5 +17,10 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombreCategoria;
+    
+    @Override
+    public String toString() {
+        return nombreCategoria;
+    }
 
 }

@@ -23,5 +23,7 @@ public class Cliente {
     public boolean equalsIgnoreCase(Cliente cliente) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'equalsIgnoreCase'");
+
     }
+
 }

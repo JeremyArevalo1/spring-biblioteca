@@ -7,7 +7,12 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.jeremyarevalo.webapp.biblioteca.BibliotecaApplication;
+import com.jeremyarevalo.webapp.biblioteca.controller.FXController.CategoriaControllerV;
+import com.jeremyarevalo.webapp.biblioteca.controller.FXController.ClienteControllerV;
+import com.jeremyarevalo.webapp.biblioteca.controller.FXController.EmpleadoControllerV;
 import com.jeremyarevalo.webapp.biblioteca.controller.FXController.IndexController;
+import com.jeremyarevalo.webapp.biblioteca.controller.FXController.LibroControllerV;
+import com.jeremyarevalo.webapp.biblioteca.controller.FXController.PrestamoControllerV;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -36,14 +41,14 @@ public class Main extends Application{
         stage.show();
     }
 
-    public Initializable switchScene(String fxlmName, int width, int height) throws IOException{
+    public Initializable switchScene(String fxmlName, int width, int height) throws IOException{
         Initializable resultado = null;
         FXMLLoader loader = new FXMLLoader();
 
         loader.setControllerFactory(applicationContext::getBean);
-        InputStream archivo = Main.class.getResourceAsStream("/templates/" + fxlmName);
+        InputStream archivo = Main.class.getResourceAsStream("/templates/" + fxmlName);
         loader.setBuilderFactory(new JavaFXBuilderFactory());
-        loader.setLocation(Main.class.getResource("/templates/" + fxlmName));
+        loader.setLocation(Main.class.getResource("/templates/" + fxmlName));
 
         scene = new Scene((AnchorPane) loader.load(archivo), width, height);
         stage.setScene(scene);
@@ -54,11 +59,56 @@ public class Main extends Application{
         return resultado;
     }
 
-    
     public void indexView(){
         try {
-            IndexController indexView = (IndexController)switchScene("index.fxlm", 600, 400);
+            IndexController indexView = (IndexController)switchScene("index.fxml", 1000, 600);
             indexView.setStage(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    public void categoriaView(){
+        try {
+            CategoriaControllerV categoriaView = (CategoriaControllerV)switchScene("categoriaView.fxml", 1000, 600);
+            categoriaView.setStage(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void clienteView(){
+        try {
+            ClienteControllerV clienteView = (ClienteControllerV)switchScene("clienteView.fxml", 1000, 600);
+            clienteView.setStage(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void empleadoView(){
+        try {
+            EmpleadoControllerV empleadoView = (EmpleadoControllerV)switchScene("empleadoView.fxml", 1000, 600);
+            empleadoView.setStage(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void libroView(){
+        try {
+            LibroControllerV libroView = (LibroControllerV)switchScene("libroView.fxml", 1000, 600);
+            libroView.setStage(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void prestamoView(){
+        try {
+            PrestamoControllerV prestamoView = (PrestamoControllerV)switchScene("prestamoView.fxml", 1000, 600);
+            prestamoView.setStage(this);
         } catch (Exception e) {
             e.printStackTrace();
         }

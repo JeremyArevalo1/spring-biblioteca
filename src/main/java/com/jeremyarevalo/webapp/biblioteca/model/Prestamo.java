@@ -34,4 +34,10 @@ public class Prestamo {
     inverseJoinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "id"))
     private List<Libro> libro;
 
+
+    public void setLibro(List<Libro> libro) {
+        this.libro = libro;
+    }
+
+
 }
